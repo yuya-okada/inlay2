@@ -1,0 +1,13 @@
+{
+  "button": {
+    "name": "ボタン",
+    "icon": "touch_app",
+    "properties": [{
+      "type": "text",
+      "text": "テキスト",
+      "initialValue": "ボタン",
+      "result": "text",
+      "resultType": "option"
+    }]
+  }
+}

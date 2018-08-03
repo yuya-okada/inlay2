@@ -1,0 +1,83 @@
+:host {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.blockly-area {
+    flex: 1;
+    background-color: #eee;
+}
+
+
+
+
+
+:host>>> .blocklyToolboxDiv {
+box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+background-color: white;
+width: 240px;
+}
+
+:host>>> .blocklyToolboxDiv .blocklyTreeRow:not(.blocklyHidden) {
+height: 60px;
+display: flex;
+align-items: center;
+/* 縦方向中央揃え */
+justify-content: center;
+/* 横方向中央揃え */
+margin-bottom: 0px;
+color: rgba(0, 0, 0, 0.87);
+border-bottom: 1px solid #ddd;
+}
+
+:host>>> .blocklyToolboxDiv .blocklyTreeRow:not(.blocklyHidden) .blocklyTreeLabel {
+font-size: 14px;
+}
+
+
+:host>>> .blocklyFlyout {
+z-index: 100;
+}
+
+:host>>> .blocklyFlyout .blocklyFlyoutBackground {
+border-radius: 0;
+fill: #fff;
+}
+
+
+:host>>> .blocklyBubbleCanvas .blocklyFlyoutBackground {
+fill: #ddd;
+}
+
+:host>>> .blocklyBubbleCanvas > g > g {
+filter: inherit;
+}
+
+:host>>> .blocklyBubbleCanvas .blocklyDraggable {
+rx: 0;
+ry: 0;
+fill: #4696F7;
+}
+
+
+:host>>> .blocklyMainBackground {
+fill: #FAFAFA !important;
+}
+
+:host>>> .blocklyPathDark, .blocklyPathLight {
+display: none;
+}
+
+:host>>> .blocklySelected > .blocklyPath {
+stroke-width: 0px !important;
+}
+
+:host>>> .blocklyEditableText > rect {
+rx: 2 !important;
+ry: 2 !important;
+}
+
+:host>>> .blocklyWidgetDiv {
+z-index: 100 !important;
+}

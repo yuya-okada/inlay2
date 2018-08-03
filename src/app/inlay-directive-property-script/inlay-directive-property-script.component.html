@@ -1,0 +1,8 @@
+
+<mat-form-field>
+  <mat-select [(value)]="value" (selectionChange)="onChanged()" placeholder="スクリプトを選択">
+    <mat-option *ngFor="let key of scriptKeys" [value]="key">
+      {{ key }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

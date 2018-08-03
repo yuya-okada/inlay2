@@ -1,0 +1,107 @@
+
+<app-scripts-list (loadScript)="loadScript($event)"></app-scripts-list>
+
+
+
+
+<div #blocklyArea class="blockly-area">
+  <div #blocklyDiv [hidden]="!currentScriptName"> </div>
+</div>
+<xml id="toolbox" style="display: none">
+  <category name="値">
+    <block type="math_number"> </block>
+    <block type="text"> </block>
+    <block type="text_join"> </block>
+    <block type="logic_boolean"> </block>
+    <block type="element_instance"> </block>
+    <block type="template_instance"> </block>
+    <block type="logic_null"> </block>
+    <block type="image_instance"> </block>
+    <block type="colour_picker"> </block>
+  </category>
+  
+  <category name="基本">
+    <block type="log"> </block>
+    <block type="intent"> </block>
+    <block type="instantiate"> </block>
+    <block type="instantiateTo"> </block>
+    <block type="save_data"> </block>
+    <block type="load_data"> </block>
+  </category>
+  
+  
+  <category name="制御">
+    <block type="controls_if"> </block>
+    <block type="watch"> </block>
+    <block type="controls_timeout"> </block>
+    <block type="controls_interval"> </block>
+    <block type="controls_repeat"> </block>
+    <block type="controls_whileUntil"> </block>
+    <!--
+      <block type="controls_for"> </block>
+      <block type="controls_forEach"> </block>
+    -->
+    <block type="controls_flow_statements"> </block>
+  </category>
+  
+  <category name="数学">
+    <block type="math_number"> </block>
+    <block type="math_arithmetic"> </block>
+    <block type="math_modulo"> </block>
+    <block type="math_single"> </block>
+    <block type="math_trig"> </block>
+    <block type="math_constant"> </block>
+    <block type="math_number_property"> </block>
+    <block type="math_round"> </block>
+    <!--
+      <block type="math_on_list"> </block>
+      <block type="math_constrain"> </block>
+    -->
+    <block type="math_random_int"> </block>
+    <block type="math_random_float"> </block>
+    <block type="parse_int"> </block>
+  </category>
+  
+      
+  <category name="ロジック">
+    <block type="logic_boolean"> </block>
+    <block type="logic_compare"> </block>
+    <block type="logic_operation"> </block>
+    <block type="logic_negate"> </block>
+    <block type="logic_ternary"> </block>
+  </category>
+  
+  
+  <category name="変数" custom="VARIABLE"></category>
+  <category name="関数" custom="PROCEDURE"></category>
+  
+  
+  
+  <!--
+    <category name="リスト">
+      <block type="lists_create_empty"> </block>
+      <block type="lists_repeat"> </block>
+      <block type="lists_reverse"> </block>
+      <block type="lists_isEmpty"> </block>
+      <block type="lists_length"> </block>
+      <block type="lists_create_with"> </block>
+      <block type="lists_indexOf"> </block>
+      <block type="lists_getIndex"> </block>
+      <block type="lists_setIndex"> </block>
+      <block type="lists_getSublist"> </block>
+      <block type="lists_sort"> </block>
+      <block type="lists_split"> </block>
+    </category>
+  -->
+  
+  <category name="色">
+    <block type="colour_picker"> </block>
+    <block type="colour_random"> </block>
+    <block type="colour_rgb"> </block>
+    <block type="colour_blend"> </block>
+  </category>
+  
+  <category name="画面部品" custom="ELEMENT"></category>
+  
+  <category name="選択されたブロック" custom="METHOD"></category>
+</xml>

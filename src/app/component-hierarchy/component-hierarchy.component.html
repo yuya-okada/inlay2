@@ -1,0 +1,39 @@
+<div fxLayout>
+    <mat-tab-group>
+      <mat-tab label="One">
+        <ng-template mat-tab-label>
+            <mat-icon>view_compact</mat-icon>
+        </ng-template>
+        <div class="white-tab">
+          <mat-grid-list cols="3" rowHeight="100px">
+            <mat-grid-tile
+                *ngFor="let key of componentsData | keys"
+                colspan="1"
+                rowspan="1"
+                (click)="addComponent(key)">
+              <div class="component-button" fxLayout="column" fxLayoutAlign="center center">
+                <mat-icon class="component-icon"> {{ componentsData[key]?.icon }} </mat-icon>
+                <span class="component-icon-title"> {{ componentsData[key]?.name}} </span>
+
+                <div class="component-button-hover" fxLayout fxLayoutAlign="center center">
+                  <button mat-raised-button color="primary"> 追加 </button>
+                </div>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </mat-tab>
+      <mat-tab label="Two">
+          <ng-template mat-tab-label>
+            <mat-icon>list</mat-icon>
+          </ng-template>
+          <div class="white-tab">
+            <mat-list>
+                <mat-list-item  *ngFor="let i of componentsKeys" (click)="onComponentSelected(components[i])" [class.selected-component-item]="selectedComponentId == i">
+                  <div class="hierarchy-item" mat-ripple> {{components[i]?.name}} </div>
+                </mat-list-item>
+            </mat-list>
+          </div>
+      </mat-tab>
+    </mat-tab-group>
+</div>

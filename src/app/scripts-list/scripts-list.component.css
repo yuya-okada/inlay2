@@ -1,0 +1,12 @@
+:host {
+    height: 100%;
+    min-width: 275px;
+    position: relative;
+    border-right: 1px solid #ccc;
+}
+
+#new-script {
+    position: absolute;
+    bottom: 20px; 
+    right: 20px;
+}

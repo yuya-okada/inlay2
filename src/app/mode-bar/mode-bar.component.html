@@ -1,0 +1,3 @@
+<button *ngFor="let mode of modes; let i = index;" mat-icon-button  [class.selected]="mode.path == currentSelectedMode"  (click)="navigate(mode.path)">
+  <mat-icon class="component-icon"> {{ mode.icon }} </mat-icon>
+</button>

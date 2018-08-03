@@ -1,0 +1,7 @@
+<mat-list role="list">
+  <mat-list-item role="listitem" (click)="changeScript(key)"  *ngFor="let key of scriptKeys" [style.color]="(currentScriptName==key)?'#008FFF':''">{{key}}</mat-list-item>
+</mat-list>
+
+<button mat-fab id="new-script" (click)="newScript()">
+  <mat-icon aria-label="Creatr new script">add</mat-icon>
+</button>

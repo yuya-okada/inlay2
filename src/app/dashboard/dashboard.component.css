@@ -1,0 +1,16 @@
+.app-dashboard {
+    height:  100%;
+}
+
+.editor-wrapper {
+    height: 100%;
+}
+
+#toolbar {
+    min-height: 64px;
+    border-bottom: 1px solid #ccc;
+}
+
+#logo {
+    height: 31px;
+}

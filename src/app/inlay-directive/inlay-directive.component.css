@@ -1,0 +1,9 @@
+:host {
+    border-bottom: 1px solid #666;
+}
+
+
+:host >>> .mat-expansion-panel-header-description {
+    justify-content: flex-end;
+    align-items: center;
+}

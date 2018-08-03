@@ -1,0 +1,21 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+}
+
+:host > span {
+    width: 40%;
+    overflow: hidden;
+}
+
+:host > div {
+    width: 60%;
+    overflow: hidden;
+}
+
+
+:host >>> mat-form-field {
+    width: 100%;
+}

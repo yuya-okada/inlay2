@@ -1,0 +1,16 @@
+
+<mat-accordion [multi]="true">
+  <mat-expansion-panel [expanded]="true" [hideToggle]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ directive?.name }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon class="component-icon"> {{ directive?.icon }} </mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <inlay-directive-property *ngFor="let key of directive?.properties | keys" [id]="key" [property]="directive?.properties[key]" (onPropertyChanged)="onPropertyChanged($event)"></inlay-directive-property>
+
+  </mat-expansion-panel>
+</mat-accordion>

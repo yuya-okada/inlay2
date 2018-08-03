@@ -1,0 +1,22 @@
+:host {
+    height: 100%;
+    width: 100%;
+}
+
+component-hierarchy {
+    height: 100%;
+    width: 320px;
+}
+
+component-property {
+    height: 100%;
+    width: 300px;
+}
+
+#button-scene {
+    position: fixed;
+    top: 15px;
+    left: 100px;
+    background-color: #fafafa;
+}
+

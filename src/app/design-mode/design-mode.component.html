@@ -1,0 +1,17 @@
+
+<mat-menu #selectSceneMenu="matMenu">
+    <button *ngFor="let sceneName of sceneNames" mat-menu-item (click)="loadScene(sceneName)">{{sceneName}}</button>
+    <button mat-menu-item (click)="showNewSceneDialog()">
+        <mat-icon aria-label="New Scene"> add </mat-icon>
+        新しいシーン 
+    </button>
+</mat-menu>
+
+<button id="button-scene" mat-button [matMenuTriggerFor]="selectSceneMenu">{{currentSceneName}}</button>
+
+
+<component-hierarchy>  </component-hierarchy>
+
+<screen fxFlex> </screen>
+
+<component-property> </component-property>
