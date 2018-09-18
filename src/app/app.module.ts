@@ -1,5 +1,7 @@
+export const API_ROOT = "http://localhost:3000"
+
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -12,6 +14,7 @@ import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EditorComponent } from './editor/editor.component';
 import { ComponentHierarchyComponent } from './component-hierarchy/component-hierarchy.component';
 import { ScreenComponent } from './run/screen/screen.component';
 import { ComponentPropertyComponent } from './component-property/component-property.component';
@@ -30,12 +33,17 @@ import { ScriptsListComponent } from './scripts-list/scripts-list.component';
 import { PromptDialogComponent } from './prompt-dialog/prompt-dialog.component';
 import { InlayDirectivePropertyScriptComponent } from './inlay-directive-property-script/inlay-directive-property-script.component';
 import { ComponentsDataResolver } from './components-data-resolver';
+import { ProjectsResolver } from './projects-resolver';
+import { HttpClientModule } from '@angular/common/http';
+import { EditorResolver } from './editor-resolver';
+import { EditorManagerService } from './editor-manager.service';
 
 const appRoutes: Routes = [
   {
-    path: 'editor',
-    component: DashboardComponent,
-    children: [// 
+    path: 'editor/:projectId',
+    component: EditorComponent,
+    resolve: {projectData: EditorResolver},
+    children: [
       {
         path: "design",
         component: DesignModeComponent,
@@ -49,8 +57,13 @@ const appRoutes: Routes = [
       }
     ]
   },
+  {
+    path: "dashboard",
+    component: DashboardComponent,
+    resolve: {projectsData: ProjectsResolver}
+  },
   { path: '',
-    redirectTo: '/editor/design',
+    redirectTo: '/dashboard',
     pathMatch: 'full'
   }
   // { path: '**', component: PageNotFoundComponent }
@@ -72,6 +85,7 @@ const appRoutes: Routes = [
     DesignModeComponent,
     BlockModeComponent,
     WorkspaceComponent,
+    EditorComponent,
     ScriptsListComponent,
     PromptDialogComponent,
     InlayDirectivePropertyScriptComponent
@@ -83,6 +97,7 @@ const appRoutes: Routes = [
     FlexLayoutModule,
     MaterialModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
@@ -91,7 +106,13 @@ const appRoutes: Routes = [
     DndModule.forRoot(), // ドラッグアンドドロップ
     RunModule
   ],
-  providers: [ComponentsDataService, ProjectManagerService, ComponentsDataResolver],
+  providers: [
+    ComponentsDataService, 
+    EditorManagerService,
+    ComponentsDataResolver, 
+    EditorResolver,
+    ProjectsResolver
+  ],
   bootstrap: [
     AppComponent
   ],

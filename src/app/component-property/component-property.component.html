@@ -1,5 +1,5 @@
 <inlay-directive *ngFor="let directive of directives" [directive]="directive"> </inlay-directive>
 
 <div id="add-directive-button-container">
-    <button mat-raised-button  color="accent" *ngIf="directives.length" (click)="addNewScript()"> ディレクティブを追加 </button>
+    <button mat-stroked-button  color="primary" *ngIf="directives.length" (click)="addNewScript()"> ディレクティブを追加 </button>
 </div>

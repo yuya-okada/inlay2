@@ -1,0 +1,17 @@
+
+<div fxLayout="column" class="editor-wrapper">
+    <div id="toolbar" fxLayout fxLayoutAlign="center center">
+        <img id="logo" src="assets/imgs/logo.png" />
+
+        <button id="save" color="accent" mat-raised-button  (click)="save()">
+            保存
+          </button>    </div>
+
+    <div fxFlex class="editor-content">
+        <div class="app-editor" fxLayout>
+            <mode-bar></mode-bar>
+            <router-outlet name="editor"></router-outlet>
+        </div>                
+    </div>
+</div>
+

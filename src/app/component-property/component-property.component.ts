@@ -5,6 +5,7 @@ import { InlayDirective } from '../run/inlay-directive';
 import { InlayDirectiveComponent } from '../inlay-directive/inlay-directive.component';
 import { InlayButtonComponent } from '../run/inlay-button/inlay-button.component';
 import { MatDialog } from '@angular/material';
+import { EditorManagerService } from '../editor-manager.service';
 
 @Component({
   selector: 'component-property',
@@ -29,17 +30,12 @@ export class ComponentPropertyComponent implements OnInit {
   public directives: InlayDirective[] = []
 
   constructor(
-    private projectManagerService: ProjectManagerService,
-    private viewContainerRef:ViewContainerRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private dialog: MatDialog
+    private editorManager: EditorManagerService,
   ) { }
 
   ngOnInit() {
-    const currentScreen = this.projectManagerService.getCurrentScene()
-
     // 選択中の要素が変更されたときトリガーされる
-    currentScreen.componentSelectedObservable.subscribe((data) => {
+    this.editorManager.componentSelectedObservable.subscribe((data) => {
       this.currentComponent = data.component
       this.directives = data.component.directives
     })

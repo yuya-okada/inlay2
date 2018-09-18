@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { ScreenComponent } from './screen/screen.component';
 import { SceneManager, SceneManagerService } from './scene-manager.service';
 import { InlayScript } from '../run/inlay-script';
+import { InlayComponent } from './inlay-component';
 
 @Injectable()
 export class ProjectManagerService {
@@ -17,12 +18,16 @@ export class ProjectManagerService {
   public scenes: {key?:SceneManager} = {}
   public currentSceneName = ""
   public scripts: {key?: InlayScript} = {}
+  public defaultSceneName: string = ""
+  public screenComponent: ScreenComponent = null
   
   constructor(private componentsDataService:ComponentsDataService, private sceneManagerService: SceneManagerService) {
     this.componentsDataService.get().subscribe((res: {key: ComponentData}) => {
       this.componentsData = res;
     });
   }
+
+
   /**
    * 新しい画面を作る
    * 
@@ -31,7 +36,7 @@ export class ProjectManagerService {
    * @memberof ProjectManagerService
    */
   newScene(name:string):SceneManager {
-    let sceneManager = this.sceneManagerService.getInstance()
+    let sceneManager = this.sceneManagerService.getInstance(this)
     this.scenes[name] = sceneManager
     return sceneManager
   }
@@ -43,9 +48,11 @@ export class ProjectManagerService {
    * @returns {SceneManager} 
    * @memberof ProjectManagerService
    */
-  setScene(name:string):SceneManager {
+  loadScene(name:string):SceneManager {
     this.currentSceneName = name
-    return this.scenes[name]
+    const scene = this.scenes[name]
+    this.screenComponent.loadScene(name)
+    return scene
   }
 
   /**
@@ -83,4 +90,39 @@ export class ProjectManagerService {
   }
 
 
+  /**
+   * プロジェクトのデータをJson形式に変換する
+   *
+   * @memberof ProjectManagerService
+   */
+  toJson() {
+    let result = {
+      scenes: {},
+      scripts: {},
+      defaultSceneName: this.defaultSceneName
+    }
+
+    // Jsonify scenes
+    for (let sceneName in this.scenes) {
+      result.scenes[sceneName] = this.scenes[sceneName].toJson()
+    }
+
+    // Jsonify scripts
+    for (let scriptName in this.scripts) {
+      result.scripts[scriptName] = {
+        code: this.scripts[scriptName].code,
+        xml: this.scripts[scriptName].xml
+      }
+    }
+
+    return result
+  }
+
+
 }
+
+
+
+
+
+

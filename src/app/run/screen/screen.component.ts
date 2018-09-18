@@ -5,6 +5,7 @@ import { ComponentData, ComponentsDataService } from '../../components-data.serv
 import { InlayComponent } from '../inlay-component';
 import { InlayButtonComponent } from '../inlay-button/inlay-button.component';
 import { ActivatedRoute } from '@angular/router';
+import { SceneManager } from '../scene-manager.service';
 
 @Component({
   selector: 'screen',
@@ -22,7 +23,6 @@ export class ScreenComponent implements OnInit {
    * @memberof ScreenComponent
    */
   @ViewChild('componentInsertMarker', { read: ViewContainerRef }) private componentInsertMarkerRef: ViewContainerRef;
-
 
   /**
    * ScreenComponentのルート要素
@@ -48,8 +48,6 @@ export class ScreenComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private _componentFactoryResolver: ComponentFactoryResolver,
-    private componentsDataService: ComponentsDataService,
     private route: ActivatedRoute,
     private projectManagerService: ProjectManagerService
   )
@@ -67,9 +65,28 @@ export class ScreenComponent implements OnInit {
     });
 
 
-    // 現在のシーンがすでにコンポーネントを持っている場合復元する。
-    const currentScene = this.projectManagerService.getCurrentScene();
-    currentScene.restoreComponents()
+  }
+
+  /**
+   * 指定したシーンを読み込み、表示する
+   *
+   * @param {string} name
+   * @memberof ScreenComponent
+   */
+  loadScene(name:string) {
+
+    const currentScene: SceneManager = this.projectManagerService.scenes[name]
+
+    // もしシーンが初期化されていないなら
+    if (Object.keys(currentScene.components).length == 0) {
+      // for (let sceneName in this.projectManagerService.scenes) {
+        this.initSceneView(name, currentScene)
+      // }
+      
+    } else {     // すでに初期化されていれば復元する。
+      this.componentInsertMarkerRef.clear()
+      currentScene.restoreComponentsDom()
+    }
   }
 
   /**
@@ -90,21 +107,32 @@ export class ScreenComponent implements OnInit {
 
 
   addComponent(componentFactory: ComponentFactory<InlayComponent>, componentType:string): ComponentRef<InlayComponent> {
+    console.log(this.componentInsertMarkerRef)
     const componentRef = this.componentInsertMarkerRef.createComponent(componentFactory);
     componentRef.instance.type = componentType
-    componentRef.instance.name = this.componentsData[componentType].name
 
     return componentRef
   }
 
-  /**
-   * 画面上の要素を空にする
-   *
-   * @memberof ScreenComponent
-   */
-  empty() {
-    $(this.componentInsertMarkerRef.element.nativeElement).nextAll().remove()
-  }
 
+
+  /**
+   * シーンのプレビューを初期化。
+   *
+   * @private
+   * @memberof DesignModeComponent
+   */
+  private initSceneView(sceneName:string, scene: SceneManager) {
+    
+    this.route.parent.data.subscribe((data) => {
+      this.componentInsertMarkerRef.clear()
+      $(".inlay-component").remove()
+      const scenes =  data.projectData.scenes[sceneName] || {}
+      for (let componentId in scenes) {
+        scene.addComponentFromJson(componentId, scenes[componentId])
+      }    
+
+    });
+  }
 
 }

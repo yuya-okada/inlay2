@@ -1,8 +1,13 @@
-.app-dashboard {
-    height:  100%;
+#dashboard-sidebar {
+    max-width: 300px;
+    background-color: #008FFF;
 }
 
-.editor-wrapper {
+
+#dashboard-wrapper {
+    height: 100%;
+}
+#dashboard-content {
     height: 100%;
 }
 
@@ -13,4 +18,21 @@
 
 #logo {
     height: 31px;
+}
+
+#projects {
+    padding: 50px;
+    justify-content: space-around;
+}
+
+.project {
+    width: 180px;
+    height: 100px;
+
+}
+
+#new-project {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
 }

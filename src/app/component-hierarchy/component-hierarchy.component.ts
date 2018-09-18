@@ -3,6 +3,7 @@ import { ComponentsDataService, ComponentData } from '../components-data.service
 import { Observable } from 'rxjs/Observable';
 import { ProjectManagerService } from '../run/project-manager.service';
 import { InlayComponent } from '../run/inlay-component';
+import { EditorManagerService } from '../editor-manager.service';
 
 @Component({
   selector: 'component-hierarchy',
@@ -51,7 +52,7 @@ export class ComponentHierarchyComponent implements OnInit {
    */
   selectedComponentId: string = null
 
-  constructor(private componentsDataService:ComponentsDataService, private projectManagerService: ProjectManagerService) { }
+  constructor(private componentsDataService:ComponentsDataService, private projectManagerService: ProjectManagerService, private editorManager: EditorManagerService) { }
 
   ngOnInit() {
     this.componentsDataService.get().subscribe((res: {key: ComponentData}) => {
@@ -59,7 +60,7 @@ export class ComponentHierarchyComponent implements OnInit {
     });
     this.reloadHierarchy()
 
-    this.projectManagerService.getCurrentScene().componentSelectedObservable.subscribe((data) => {
+    this.editorManager.componentSelectedObservable.subscribe((data) => {
       this.selectedComponentId = data.id
     })
   }

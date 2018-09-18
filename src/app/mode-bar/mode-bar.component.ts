@@ -48,7 +48,7 @@ export class ModeBarComponent implements OnInit {
    */
   navigate (path:string) {
     
-    this.router.navigate(["editor", {outlets: {"editor": [path]}}]);
+    this.router.navigate(["editor", this.route.snapshot.params.projectId ,{outlets: {"editor": [path]}}]);
     this.currentSelectedMode = path
   }
 

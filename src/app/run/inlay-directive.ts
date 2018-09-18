@@ -93,4 +93,22 @@ export class InlayDirective {
       }
       return chars.join("");
     }
+
+    /**
+     * このdirectiveをJson形式に変換
+     *
+     * @memberof InlayDirective
+     */
+    toJson() {
+        let result = {
+            name: this.name,
+            icon: this.icon,
+            properties: {}
+        }
+        for (let propertyId in this.properties) {
+            const property: InlayDirectiveProperty = this.properties[propertyId]
+            result.properties[propertyId] = property.toJson()
+        }
+        return result
+    }
 }

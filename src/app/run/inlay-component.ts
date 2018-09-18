@@ -1,5 +1,4 @@
 import { InlayButtonComponent } from "./inlay-button/inlay-button.component";
-import { ComponentsDataService } from "../components-data.service";
 import { DirectivesDataService, DirectiveData, DirectivePropertyData } from "../directives-data.service";
 import { InlayDirective } from "./inlay-directive";
 import { HostBinding, HostListener, ElementRef, Output, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
@@ -12,6 +11,7 @@ export class InlayComponent implements OnInit{
     // スタイルを定義するためのプロパティなので、常にtrueにする
     @HostBinding("class.inlay-component") isinlayCompoennt = true
     @HostBinding("class.inlay-component-focused") isFocused = false
+
 
     @HostListener("mousedown")
     onMouseDown(ev) {
@@ -27,13 +27,6 @@ export class InlayComponent implements OnInit{
      * @memberof InlayComponent
      */
     public $element: any;
-    /**
-     *
-     *
-     * @private
-     * @memberof InlayComponent
-     */
-    private directivesData = {}
 
     /**
      * コンポーネントの名前
@@ -188,6 +181,7 @@ export class InlayComponent implements OnInit{
                     type: "script",
                     text: "スクリプト",
                     resultType: "script",
+                    
                 }
             ],
         }
@@ -195,6 +189,34 @@ export class InlayComponent implements OnInit{
         const inlayDirective = new InlayDirective(directiveName, directiveData, this)
         this.directives.push(inlayDirective)
         return inlayDirective
+    }
+
+
+    /**
+     * JSONデータからディレクティブを生成
+     *
+     * @param {*} directiveData
+     * @memberof InlayComponent
+     */
+    addDirectiveFromJson(directiveData: any) {
+        const properties = []
+        for (const propertyId in directiveData.properties) {
+            const propertyData = directiveData.properties[propertyId]
+            properties.push({
+                result: propertyData.result,
+                resultType: propertyData.resultType,
+                text: propertyData.text,
+                type: propertyData.type,
+                initialValue: propertyData.value,
+            })
+        }
+
+        const inlayDirective = new InlayDirective(directiveData.name, {
+            name: directiveData.name,
+            icon: directiveData.icon,
+            properties: properties
+        }, this);
+        this.directives.push(inlayDirective);
     }
     
     /**
@@ -274,4 +296,28 @@ export class InlayComponent implements OnInit{
         this.isFocused = false
     }
 
+
+    /**
+     * このコンポーネントをJson形式に変換
+     *
+     * @memberof InlayComponent
+     */
+    toJson() {
+        let result = {
+            type: this.type,
+            x: this.x,
+            y: this.y,
+            width: this.width,
+            height: this.height,
+            directives: {}
+        }
+
+        for (let directiveId in this.directives) {
+            const directive: InlayDirective = this.directives[directiveId]
+            result.directives[directiveId] = directive.toJson()
+        }
+
+        return result
+    }
+    
 }

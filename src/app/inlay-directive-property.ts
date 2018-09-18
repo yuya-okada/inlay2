@@ -44,4 +44,14 @@ export class InlayDirectiveProperty {
         this.value = propertyData.initialValue;
         this.text = propertyData.text;
     }
+
+    toJson() {
+        return {
+            type: this.type,
+            resultType: this.resultType,
+            result: this.result,
+            value: this.value,
+            text: this.text
+        }
+    }
 }

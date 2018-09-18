@@ -1,14 +1,30 @@
 
-<div fxLayout="column" class="editor-wrapper">
-    <div id="toolbar" fxLayout fxLayoutAlign="center center">
-        <img id="logo" src="assets/imgs/logo.png" />
-    </div>
+<div fxLayout="column" id="dashboard-wrapper">
+  <div id="toolbar" fxLayout fxLayoutAlign="center center">
+      <img id="logo" src="assets/imgs/logo.png" />
+  </div>
 
-    <div fxFlex class="editor-content">
-        <div class="app-dashboard" fxLayout>
-            <mode-bar></mode-bar>
-            <router-outlet name="editor"></router-outlet>
-        </div>                
-    </div>
+  <div fxFlex fxLayout="row" id="dashboard-content">
+      <div fxFlex id="dashboard-sidebar"></div>
+      
+      <div fxFlex fxLayout="column"  id="projects">
+        <h3> プロジェクト</h3>
+
+        <div id="projects-content" fxFlex fxLayout="row wrap" fxLayoutAlign="space-around">
+
+            <mat-card class="project" *ngFor="let project of projects">
+                <mat-card-header>
+                  <mat-card-title> <h3> {{project.name}} </h3></mat-card-title>
+                </mat-card-header>
+                <mat-card-actions>
+                  <!-- <button mat-button>LIKE</button> -->
+                  <button mat-button>開く</button>
+                </mat-card-actions>
+              </mat-card>
+        </div> 
+      </div>
+  </div>
+  <button mat-fab color="accent" id="new-project" (click)="newProject()">
+    <mat-icon aria-label="New Project">add</mat-icon>
+  </button>
 </div>
-

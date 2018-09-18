@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ScreenComponent } from '../run/screen/screen.component';
 import { ProjectManagerService } from '../run/project-manager.service';
 import { SceneManager } from '../run/scene-manager.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { PromptDialogComponent } from '../prompt-dialog/prompt-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-design-mode',
@@ -15,7 +16,7 @@ export class DesignModeComponent implements OnInit {
   currentSceneName:string = ""
   sceneNames: string[] = []
 
-  constructor(private projectManagerService: ProjectManagerService, public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(private projectManagerService: ProjectManagerService, public dialog: MatDialog, private snackBar: MatSnackBar, private route: ActivatedRoute) {}
 
   ngOnInit() {
 
@@ -30,17 +31,13 @@ export class DesignModeComponent implements OnInit {
 
     this.sceneNames = Object.keys(this.projectManagerService.scenes)
 
-
-    this.currentSceneName = this.projectManagerService.currentSceneName
-    const currentScene: SceneManager = this.projectManagerService.getCurrentScene()
-    currentScene.setScreenComponent(this.screenComponent)
+    this.projectManagerService.screenComponent = this.screenComponent
+    this.loadScene(this.projectManagerService.currentSceneName)
   }
-
 
   loadScene(name: string) {
     const scene = this.projectManagerService.scenes[name]
-    scene.setScreenComponent(this.screenComponent)
-    scene.restoreComponents()
+    this.projectManagerService.loadScene(name)
     this.currentSceneName = name
   }
 
@@ -60,7 +57,6 @@ export class DesignModeComponent implements OnInit {
   private newScene(name: string) {
     if (this.sceneNames.indexOf(name) == -1) {
       const scene = this.projectManagerService.newScene(name)
-      scene.setScreenComponent(this.screenComponent)
       this.sceneNames.push(name);
     } else {
       this.snackBar.open("すでに存在する名前です", null, {

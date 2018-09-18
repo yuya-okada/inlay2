@@ -7,17 +7,20 @@ import { InlayComponent } from "./inlay-component";
 import { ComponentsDataService, ComponentData } from "../components-data.service";
 import { Subject } from 'rxjs/Subject';
 import { Uuid } from '../uuid';
+import { ProjectManagerService } from './project-manager.service';
+import { EditorManagerService } from '../editor-manager.service';
 
 @Injectable()
 export class SceneManagerService {
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
-    private componentsDataService: ComponentsDataService
+    private componentsDataService: ComponentsDataService,
+    private editorManager: EditorManagerService,
   ) { }
   
-  getInstance() {
-    return new SceneManager(this._componentFactoryResolver, this.componentsDataService)
+  getInstance(projectManagerService: ProjectManagerService) {
+    return new SceneManager(this._componentFactoryResolver, this.componentsDataService, this.editorManager, projectManagerService)
   }
 
 }
@@ -26,18 +29,6 @@ export class SceneManagerService {
 
 
 export class SceneManager {
-  private componentsData: {key: ComponentData}
-
-  /**
-   * 管理する対象となるScreenComponent
-   * 
-   * @memberof ScreenManager
-   */
-  private targetScreenComponent:ScreenComponent = null
-
-
-  private selectedComponentSource = new Subject<{id: string, component:InlayComponent}>()
-  public componentSelectedObservable = this.selectedComponentSource.asObservable();
 
   /**
    * 画面上のコンポーネント一覧
@@ -50,16 +41,12 @@ export class SceneManager {
   
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
-    private componentsDataService: ComponentsDataService
+    private componentsDataService: ComponentsDataService,
+    private editorManager: EditorManagerService,
+    private projectManagerService: ProjectManagerService
   ) {
-    componentsDataService.get().subscribe((res: {key: ComponentData}) => {
-      this.componentsData = res
-    })
   }
 
-  setScreenComponent(component: ScreenComponent) {
-    this.targetScreenComponent = component
-  }
 
   /**
    * 新しいコンポーネントを追加し、追加されたコンポーネントのインスタンスを返す
@@ -71,29 +58,38 @@ export class SceneManager {
   addComponent(componentType:string): InlayComponent {
     const uuid = Uuid.generate();
     const componentRef = this.initComponent(uuid, componentType)
-    const componentData = this.componentsData[componentType];
 
-    // 動的に生成したコンポーネントにパラメータを渡す
-    componentRef.instance.width = componentData.width;
-    componentRef.instance.height = componentData.height;
-    this.onComponentFocused(uuid);
-    componentRef.instance.addDirective(componentData.directives);
+    this.componentsDataService.get().subscribe((componentsData) => {
+      const componentData = componentsData[componentType];
+
+      // 動的に生成したコンポーネントにパラメータを渡す
+      componentRef.instance.width = componentData.width;
+      componentRef.instance.height = componentData.height;
+      componentRef.instance.addDirective(componentData.directives);
+      this.onComponentFocused(uuid);
+
+    })
 
     return componentRef.instance
   }
 
-  restoreComponents() {
-    this.targetScreenComponent.empty()
+  /**
+   * シーンがもっているコンポーネントの情報をもとにScreenコンポーネントにDOMを生成しなおす
+   *
+   * @memberof SceneManager
+   */
+  restoreComponentsDom() {
+    $(".inlay-component").addClass("old-component")
     for (let key in this.components) {
       let component = this.components[key]
-      this.restoreComponent(key, component);
+      this.restoreComponentDom(key, component);
     }
+    $(".old-component").remove()
   }
 
-  private restoreComponent(id: string, component: InlayComponent) {
+  private restoreComponentDom(id: string, component: InlayComponent) {
     const newComponentRef = this.initComponent(id, component.type)
     const newInstance = newComponentRef.instance;
-    const componentData = this.componentsData[component.type];
     newInstance.x = component.x;
     newInstance.y = component.y;
     newInstance.width = component.width;
@@ -105,7 +101,6 @@ export class SceneManager {
 
   private initComponent(id:string, componentType:string): ComponentRef<InlayComponent> {
     const componentRef = this.generateComponentRef(componentType)
-    const componentData = this.componentsData[componentType];
 
     componentRef.instance.onFocusEmitter.subscribe(() => {
       this.onComponentFocused(id)
@@ -118,13 +113,17 @@ export class SceneManager {
 
   private generateComponentRef(componentType: string): ComponentRef<InlayComponent> {
     let type:Type<InlayComponent> = this.getComponentType(componentType);
-    let componentData: ComponentData = this.componentsData[componentType];
 
     // コンポーネント生成器を初期化
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(type);
 
     // 動的にコンポーネントを生成
-    const componentRef = this.targetScreenComponent.addComponent(componentFactory, componentType);
+    const componentRef = this.projectManagerService.screenComponent.addComponent(componentFactory, componentType);
+
+    // 名前をつける
+    this.componentsDataService.get().subscribe((componentsData) => {
+      componentRef.instance.name = componentsData[componentType].name
+    })
 
     return componentRef;
   }
@@ -144,7 +143,7 @@ export class SceneManager {
         component.unfocus()
       }
     }
-    this.selectedComponentSource.next({
+    this.editorManager.selectedComponentSource.next({
       id: id,
       component: component
     })
@@ -159,4 +158,38 @@ export class SceneManager {
     return
   }
 
+  /**
+   * シーンをJSON形式に変換する
+   *
+   * @memberof SceneManager
+   */
+  toJson() {
+    let result = {}
+    for (let componentId in this.components) {
+      const component = this.components[componentId]
+      result[componentId] = component.toJson();
+    }
+    return result
+  }
+
+  /**
+   * Jsonデータをもとにコンポーネントを生成する
+   *
+   * @returns {InlayComponent}
+   * @memberof SceneManager
+   */
+  addComponentFromJson(id: string, data: any) : InlayComponent{
+    const component = this.initComponent(id, data.type)
+    component.instance.x = data.x
+    component.instance.y = data.y
+    component.instance.width = data.width
+    component.instance.height = data.height
+
+    for (const i in data.directives) {
+      const directiveData = data.directives[i]
+      component.instance.addDirectiveFromJson(directiveData)
+    }
+    return component.instance
+  }
 }
+

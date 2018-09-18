@@ -41,7 +41,25 @@ app-root {
     height: 100%;
 }
 
+#preloader-canvas {
+    width: 100%;
+    height: 100%
+}
+
 
 .cdk-overlay-pane {
     max-width: 100vw !important;
 }
+
+
+
+#preloader-canvas { 
+    width: 100%;
+    height: 100%;
+    position :fixed;
+    top: 0;
+    left: 0;
+}
+
+
+
