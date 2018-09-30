@@ -1,0 +1,44 @@
+
+:host-context(body) {
+    background-color: #fafafa;
+}
+
+:host {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+:host mat-form-field {
+    width: 230px;
+}
+
+:host mat-card-header {
+    font-size: 1.5em;
+    font-weight: 100;
+    margin: -24px -24px 0 -24px;
+    padding: 40px 24px 40px 24px;
+    border-bottom: 1px solid #ccc;
+}
+
+#login-card {
+    width: 300px;
+}
+
+
+mat-card-content {
+    height: 200px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+mat-card-actions {
+    padding: 20px;
+    margin-bottom: -8px !important;
+    float: right;
+}

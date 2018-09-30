@@ -4,6 +4,7 @@ import { PromptDialogComponent } from '../prompt-dialog/prompt-dialog.component'
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { API_ROOT } from '../app.module';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +14,12 @@ import { API_ROOT } from '../app.module';
 export class DashboardComponent implements OnInit {
   projects = []
 
-  constructor(public dialog: MatDialog, public route: ActivatedRoute, public http: HttpClient) { }
+  constructor(public dialog: MatDialog, public route: ActivatedRoute, public http: HttpClient, private sessionService: SessionService) { }
 
   ngOnInit() {
+    console.log(this.route.snapshot.data.projectsData)
     this.projects = this.route.snapshot.data.projectsData
+
   }
 
   newProject() {
@@ -39,7 +42,9 @@ export class DashboardComponent implements OnInit {
       .append("data", '{}');
 
     console.log(httpParams);
-    this.http.post(API_ROOT + "/projects", httpParams).subscribe((data)=> {
+    this.http.post(API_ROOT + "/projects", httpParams, {
+      headers: this.sessionService.getAuthenticateHeader()
+    }).subscribe((data)=> {
     })
   }
 }

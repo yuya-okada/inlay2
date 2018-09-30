@@ -1,4 +1,4 @@
-export const API_ROOT = "http://localhost:3000"
+export const API_ROOT = "http://100.115.92.196:3000"
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -37,6 +37,9 @@ import { ProjectsResolver } from './projects-resolver';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorResolver } from './editor-resolver';
 import { EditorManagerService } from './editor-manager.service';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { SessionService } from './session.service';
 
 const appRoutes: Routes = [
   {
@@ -61,6 +64,14 @@ const appRoutes: Routes = [
     path: "dashboard",
     component: DashboardComponent,
     resolve: {projectsData: ProjectsResolver}
+  },
+  {
+    path: "login",
+    component: LoginComponent,
+  },
+  {
+    path: "signup",
+    component: SignupComponent,
   },
   { path: '',
     redirectTo: '/dashboard',
@@ -88,7 +99,9 @@ const appRoutes: Routes = [
     EditorComponent,
     ScriptsListComponent,
     PromptDialogComponent,
-    InlayDirectivePropertyScriptComponent
+    InlayDirectivePropertyScriptComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +124,8 @@ const appRoutes: Routes = [
     EditorManagerService,
     ComponentsDataResolver, 
     EditorResolver,
-    ProjectsResolver
+    ProjectsResolver,
+    SessionService
   ],
   bootstrap: [
     AppComponent

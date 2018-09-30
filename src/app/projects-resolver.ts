@@ -6,12 +6,15 @@ import 'rxjs/add/operator/delay';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_ROOT } from './app.module';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class ProjectsResolver implements Resolve<Observable<{}>> {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private sessionService: SessionService) {}
   
     resolve() {
-      return this.http.get(API_ROOT + "/projects")
+      return this.http.get(API_ROOT + "/projects", {
+        headers: this.sessionService.getAuthenticateHeader()
+      })
     }
   }
