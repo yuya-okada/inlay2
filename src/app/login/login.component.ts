@@ -27,12 +27,15 @@ export class LoginComponent implements OnInit {
     }, {observe: "response"}).subscribe((res) => {
       console.log(res)
       const headers = res["headers"]
-      console.log(headers)
       if (headers.get("uid")) {
-        this.sessionService.setSession(headers.get("access-token"), headers.get("client"), headers.get("uid"))
+        this.sessionService.setSession(headers)
         this.router.navigate(["dashboard"]);
       }
     })
+  }
+
+  goToSignup() {
+    this.router.navigate(["signup"]);
   }
 
 }

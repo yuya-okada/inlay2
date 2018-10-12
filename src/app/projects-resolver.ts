@@ -14,7 +14,12 @@ export class ProjectsResolver implements Resolve<Observable<{}>> {
   
     resolve() {
       return this.http.get(API_ROOT + "/projects", {
-        headers: this.sessionService.getAuthenticateHeader()
+        headers: this.sessionService.getAuthenticateHeader(),
+        observe: 'response'
+      }).map((res) => {
+        console.log(res)
+        this.sessionService.setSession(res.headers)
+        return res.body
       })
     }
   }

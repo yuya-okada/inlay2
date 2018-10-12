@@ -3,11 +3,15 @@ import { ComponentData, ComponentsDataService } from '../components-data.service
 import { Subject } from 'rxjs/Subject';
 import { ScreenComponent } from './screen/screen.component';
 import { SceneManager, SceneManagerService } from './scene-manager.service';
-import { InlayScript } from '../run/inlay-script';
+import { InlayScript } from './inlay-script';
 import { InlayComponent } from './inlay-component';
 
 @Injectable()
 export class ProjectManagerService {
+  public selectedComponentSource = new Subject<{id: string, component:InlayComponent}>()
+  public componentSelectedObservable = this.selectedComponentSource.asObservable();
+
+  
   /**
    * コンポーネントの設定データ(read only)
    * 

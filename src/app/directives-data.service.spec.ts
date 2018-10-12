@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DirectivesDataService } from './directives-data.service';
+import { InlayTestModule } from './inlay-test/inlay-test.module';
 
 describe('DirectivesDataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DirectivesDataService]
+      providers: [DirectivesDataService],
+      imports: [InlayTestModule]
     });
   });
 

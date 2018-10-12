@@ -8,19 +8,17 @@ import { ComponentsDataService, ComponentData } from "../components-data.service
 import { Subject } from 'rxjs/Subject';
 import { Uuid } from '../uuid';
 import { ProjectManagerService } from './project-manager.service';
-import { EditorManagerService } from '../editor-manager.service';
 
 @Injectable()
 export class SceneManagerService {
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
-    private componentsDataService: ComponentsDataService,
-    private editorManager: EditorManagerService,
+    private componentsDataService: ComponentsDataService
   ) { }
   
   getInstance(projectManagerService: ProjectManagerService) {
-    return new SceneManager(this._componentFactoryResolver, this.componentsDataService, this.editorManager, projectManagerService)
+    return new SceneManager(this._componentFactoryResolver, this.componentsDataService, projectManagerService)
   }
 
 }
@@ -42,7 +40,6 @@ export class SceneManager {
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private componentsDataService: ComponentsDataService,
-    private editorManager: EditorManagerService,
     private projectManagerService: ProjectManagerService
   ) {
   }
@@ -143,7 +140,7 @@ export class SceneManager {
         component.unfocus()
       }
     }
-    this.editorManager.selectedComponentSource.next({
+    this.projectManagerService.selectedComponentSource.next({
       id: id,
       component: component
     })

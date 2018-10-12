@@ -32,11 +32,15 @@ export class ModeBarComponent implements OnInit {
   constructor(private router: Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
+    this.currentSelectedMode = this.modes[0].path
+
 
     let child = this.route.children[0]
-    child.url.subscribe((data) => {
-      this.currentSelectedMode = data[0].path
-    })
+    if (child) {
+      child.url.subscribe((data) => {
+        this.currentSelectedMode = data[0].path
+      })
+    }
     
   }
 

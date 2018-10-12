@@ -1,4 +1,4 @@
-export const API_ROOT = "http://100.115.92.196:3000"
+export const API_ROOT = "http://localhost:3000"
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { DndModule } from "ng2-dnd";
+import { CookieService } from 'ngx-cookie-service';
 
 import { MaterialModule } from './material/material.module';
 
@@ -36,7 +37,6 @@ import { ComponentsDataResolver } from './components-data-resolver';
 import { ProjectsResolver } from './projects-resolver';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorResolver } from './editor-resolver';
-import { EditorManagerService } from './editor-manager.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SessionService } from './session.service';
@@ -46,6 +46,7 @@ const appRoutes: Routes = [
     path: 'editor/:projectId',
     component: EditorComponent,
     resolve: {projectData: EditorResolver},
+    canActivate: [SessionService],
     children: [
       {
         path: "design",
@@ -63,7 +64,8 @@ const appRoutes: Routes = [
   {
     path: "dashboard",
     component: DashboardComponent,
-    resolve: {projectsData: ProjectsResolver}
+    resolve: {projectsData: ProjectsResolver},
+    canActivate: [SessionService]
   },
   {
     path: "login",
@@ -121,11 +123,11 @@ const appRoutes: Routes = [
   ],
   providers: [
     ComponentsDataService, 
-    EditorManagerService,
     ComponentsDataResolver, 
     EditorResolver,
     ProjectsResolver,
-    SessionService
+    SessionService,
+    CookieService
   ],
   bootstrap: [
     AppComponent

@@ -5,7 +5,7 @@
 
 
 <div #blocklyArea class="blockly-area">
-  <div #blocklyDiv [hidden]="!currentScriptName"> </div>
+  <div #blocklyDiv [style.visibility]="currentScriptName?'visible':'hidden'"> </div>
 </div>
 <xml id="toolbox" style="display: none">
   <category name="値">

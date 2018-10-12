@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ContentChild } from '@angular/core';
 import { ProjectManagerService } from '../run/project-manager.service';
 import { ActivatedRoute } from '@angular/router';
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { API_ROOT } from '../app.module';
-import { HttpParams } from '@angular/common/http';
+import { SessionService } from '../session.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class EditorComponent implements OnInit {
 
   projectData:any = {}
 
-  constructor(private projectManagerService: ProjectManagerService, private route: ActivatedRoute, private http: Http) {}
+  constructor(private projectManagerService: ProjectManagerService, private route: ActivatedRoute, private sessionService: SessionService, private http: HttpClient) {}
 
   ngOnInit() {
     this.projectData = this.route.snapshot.data.projectData
@@ -37,6 +37,8 @@ export class EditorComponent implements OnInit {
       }
     }
 
+    this.projectManagerService.scripts = this.projectData.scripts
+
   }
 
 
@@ -46,14 +48,16 @@ export class EditorComponent implements OnInit {
    * @memberof EditorComponent
    */
   save() {
-    const headers = new Headers({"Content-Type": "application/json"})
-    const options = new RequestOptions({headers: headers})
     let projectJson = this.projectManagerService.toJson()
     console.log(projectJson)
-    this.http.put(API_ROOT + "/projects/" + this.route.snapshot.params["projectId"], JSON.stringify({
+    this.http.put(API_ROOT + "/projects/" + this.route.snapshot.params["projectId"], {
       "data": projectJson,
       "name": this.projectName
-    }), options).subscribe(() => {
+    },{
+      headers: this.sessionService.getAuthenticateHeader(),
+      observe: 'response'
+    }).subscribe((res) => {
+      this.sessionService.setSession(res.headers)
       console.log("done")
     })
   }

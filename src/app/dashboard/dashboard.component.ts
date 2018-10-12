@@ -45,6 +45,11 @@ export class DashboardComponent implements OnInit {
     this.http.post(API_ROOT + "/projects", httpParams, {
       headers: this.sessionService.getAuthenticateHeader()
     }).subscribe((data)=> {
+      this.projects.push({
+        name: result,
+        data: {}
+      })
+      this.sessionService.setSession(data["headers"])
     })
   }
 }

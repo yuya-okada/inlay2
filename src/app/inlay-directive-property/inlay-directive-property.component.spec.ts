@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InlayDirectivePropertyComponent } from './inlay-directive-property.component';
+import { InlayTestModule } from '../inlay-test/inlay-test.module';
 
 describe('InlayDirectivePropertyComponent', () => {
   let component: InlayDirectivePropertyComponent;
@@ -8,7 +9,8 @@ describe('InlayDirectivePropertyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InlayDirectivePropertyComponent ]
+      declarations: [ InlayDirectivePropertyComponent ],
+      imports: [InlayTestModule]
     })
     .compileComponents();
   }));

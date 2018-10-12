@@ -36,7 +36,6 @@ export class DesignModeComponent implements OnInit {
   }
 
   loadScene(name: string) {
-    const scene = this.projectManagerService.scenes[name]
     this.projectManagerService.loadScene(name)
     this.currentSceneName = name
   }

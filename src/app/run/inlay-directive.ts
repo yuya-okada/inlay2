@@ -73,7 +73,7 @@ export class InlayDirective {
 
     onPropertyChanged(data: {newVal: any, property: InlayDirectiveProperty, id: string}) {
         this.properties[data.id].value = data.newVal
-        this.target.onPropertyChanged(data)
+        this.target.onPropertyChanged(data.newVal, data.property.resultType, data.property.result);
     }
 
 

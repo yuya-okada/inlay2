@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ModeBarComponent } from './mode-bar.component';
+import { InlayTestModule } from '../inlay-test/inlay-test.module';
+import { MaterialModule } from '../material/material.module';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs/observable/of';
 
 describe('ModeBarComponent', () => {
   let component: ModeBarComponent;
@@ -8,7 +12,8 @@ describe('ModeBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModeBarComponent ]
+      declarations: [ ModeBarComponent ],
+      imports: [InlayTestModule, MaterialModule]
     })
     .compileComponents();
   }));

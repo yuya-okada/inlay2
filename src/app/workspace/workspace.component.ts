@@ -53,10 +53,13 @@ export class WorkspaceComponent implements OnInit {
   ngOnInit() {
 
     const toolbox: any = {toolbox: document.getElementById('toolbox')};
-    const blocklyArea = this.blocklyAreaRef.element.nativeElement;
     const blocklyDiv = this.blocklyDivRef.element.nativeElement;
     this.workspace = Blockly.inject(blocklyDiv, toolbox);
     this.workspace.addChangeListener(e => this.onWorkspaceChange(e));
+
+    Blockly.mainWorkspace.clear()
+    let xml = Blockly.Xml.textToDom("");
+    Blockly.Xml.domToWorkspace(xml, this.workspace);
 
     window.addEventListener('resize', () => this.onResize(), false);
     this.onResize();
@@ -68,6 +71,8 @@ export class WorkspaceComponent implements OnInit {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+    $(".blocklyWidgetDiv").remove()
+
   }
 
   /**
@@ -104,7 +109,7 @@ export class WorkspaceComponent implements OnInit {
     Blockly.Xml.domToWorkspace(xml, this.workspace);
 
     this.currentScriptName = name
-    console.log(this.currentScriptName)
+
   }
 
   /**

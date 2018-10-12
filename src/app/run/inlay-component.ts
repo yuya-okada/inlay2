@@ -218,17 +218,18 @@ export class InlayComponent implements OnInit{
         }, this);
         this.directives.push(inlayDirective);
     }
-    
     /**
      * プロパティの値歩変更
-     * 
-     * @param {{newVal: any, property: InlayDirectiveProperty}} data 
+     *
+     * @param {*} newVal
+     * @param {string} resultType
+     * @param {*} result
      * @memberof InlayComponent
      */
-    onPropertyChanged(data: {newVal: any, property: InlayDirectiveProperty, id: string}) {
-        switch (data.property.resultType) {
+    onPropertyChanged(newVal: any, resultType:string, result:any) {
+        switch (resultType) {
             case "option":
-                this.options[data.property.result] = data.newVal
+                this.options[result] = newVal
             break;
 
         }

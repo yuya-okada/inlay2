@@ -77,15 +77,17 @@ export class ScreenComponent implements OnInit {
 
     const currentScene: SceneManager = this.projectManagerService.scenes[name]
 
-    // もしシーンが初期化されていないなら
-    if (Object.keys(currentScene.components).length == 0) {
-      // for (let sceneName in this.projectManagerService.scenes) {
-        this.initSceneView(name, currentScene)
-      // }
-      
-    } else {     // すでに初期化されていれば復元する。
-      this.componentInsertMarkerRef.clear()
-      currentScene.restoreComponentsDom()
+    if (currentScene) {
+      // もしシーンが初期化されていないなら
+      if (Object.keys(currentScene.components).length == 0) {
+        // for (let sceneName in this.projectManagerService.scenes) {
+          this.initSceneView(name, currentScene)
+        // }
+        
+      } else {     // すでに初期化されていれば復元する。
+        this.componentInsertMarkerRef.clear()
+        currentScene.restoreComponentsDom()
+      }
     }
   }
 

@@ -2,6 +2,25 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { ComponentsDataService } from './components-data.service';
+import { EditorManagerService } from './editor-manager.service';
+import { ComponentsDataResolver } from './components-data-resolver';
+import { EditorResolver } from './editor-resolver';
+import { ProjectsResolver } from './projects-resolver';
+import { SessionService } from './session.service';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpModule } from '@angular/http';
+import { MaterialModule } from './material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  RouterTestingModule
+} from '@angular/router/testing';
+import { DndModule } from 'ng2-dnd';
+import { RunModule } from './run/run.module';
+import { DirectivesDataService } from './directives-data.service';
 
 describe('AppComponent', () => {
   beforeEach(() => {
@@ -9,6 +28,28 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+        DirectivesDataService,
+        ComponentsDataService, 
+        EditorManagerService,
+        ComponentsDataResolver, 
+        EditorResolver,
+        ProjectsResolver,
+        SessionService
+      ],
+      imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        FlexLayoutModule,
+        MaterialModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        RouterTestingModule,
+        DndModule.forRoot(), // ドラッグアンドドロップ
+        RunModule
+      ],
+      
     });
     TestBed.compileComponents();
   });
@@ -19,16 +60,4 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'app works!'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app works!');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('app works!');
-  }));
 });

@@ -1,25 +1,52 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { CanActivate, ActivatedRouteSnapshot, Router }    from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { Subject } from 'rxjs/Subject';
+import { API_ROOT } from './app.module';
 
 @Injectable()
-export class SessionService {
+export class SessionService implements CanActivate{
   private accessToken = ""
   private client = ""
   private uid = ""
 
-  constructor() { }
+  constructor(private router: Router, private cookieService: CookieService, private http: HttpClient) {
+
+    this.accessToken = this.cookieService.get("accessToken");
+    this.client = this.cookieService.get("client");
+    this.uid = this.cookieService.get("uid");
+
+  }
 
   /**
    * ログインされているか
    *
-   * @returns {boolean}
+   * @returns SubjectM{boolean>}
    * @memberof SessionService
    */
-  isActive() :boolean {
+  canActivate() :Subject<boolean> {
+    const promise = new Subject<boolean>()
+
     if (this.accessToken && this.client && this.uid) {
-      return true
+      
+      this.http.get(API_ROOT + "/user", {
+        headers: this.getAuthenticateHeader(),
+        observe: 'response'
+      }).subscribe((res) => {
+        this.setSession(res["headers"])
+        promise.next(true)
+      }, (error) => {
+        this.router.navigate(['/login'])
+        promise.next(false)
+      })
+    } else {
+      this.router.navigate(['/login'])
+      promise.next(false)
     }
-    return false
+
+    return promise
+    
   }
 
   /**
@@ -30,10 +57,20 @@ export class SessionService {
    * @param {string} uid
    * @memberof SessionService
    */
-  setSession(accessToken:string, client:string, uid:string) {
-    this.accessToken = accessToken
-    this.client = client 
-    this.uid = uid
+  setSession(headers: HttpHeaders) {
+    console.log("set session", headers.get("uid"));
+
+    if (headers && headers.get("access-token")) {
+      
+      this.accessToken = headers.get("access-token")
+      this.client = headers.get("client")
+      this.uid = headers.get("uid")
+
+      this.cookieService.set("accessToken", this.accessToken);
+      this.cookieService.set("client", this.client);
+      this.cookieService.set("uid", this.uid);
+
+    }
   }
 
   /**
@@ -69,6 +106,7 @@ export class SessionService {
 
   getAuthenticateHeader(): HttpHeaders {
     const header = new HttpHeaders()
+    console.log("get", this.accessToken, this.client, this.uid);
     return header.set("access-token", this.accessToken)
       .set("client", this.client)
       .set("uid", this.uid)

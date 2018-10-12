@@ -1,11 +1,7 @@
-import { Component, OnInit, ViewContainerRef, ComponentFactory, ViewChild, ComponentFactoryResolver, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ProjectManagerService } from '../run/project-manager.service';
 import { InlayComponent } from '../run/inlay-component';
 import { InlayDirective } from '../run/inlay-directive';
-import { InlayDirectiveComponent } from '../inlay-directive/inlay-directive.component';
-import { InlayButtonComponent } from '../run/inlay-button/inlay-button.component';
-import { MatDialog } from '@angular/material';
-import { EditorManagerService } from '../editor-manager.service';
 
 @Component({
   selector: 'component-property',
@@ -30,12 +26,12 @@ export class ComponentPropertyComponent implements OnInit {
   public directives: InlayDirective[] = []
 
   constructor(
-    private editorManager: EditorManagerService,
+    private projectManagerService: ProjectManagerService
   ) { }
 
   ngOnInit() {
     // 選択中の要素が変更されたときトリガーされる
-    this.editorManager.componentSelectedObservable.subscribe((data) => {
+    this.projectManagerService.componentSelectedObservable.subscribe((data) => {
       this.currentComponent = data.component
       this.directives = data.component.directives
     })
