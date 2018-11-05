@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
-import { InlayButtonComponent } from '../run/inlay-button/inlay-button.component';
-import { ProjectManagerService } from '../run/project-manager.service';
-import { SceneManagerService } from '../run/scene-manager.service';
-import { DirectivesDataService } from '../directives-data.service';
 import { DndModule } from 'ng2-dnd';
 import { FormsModule } from '@angular/forms';
+import { ProjectManagerService } from 'inlay-runner/src/app/project-manager.service';
+import { SceneManagerService } from 'inlay-runner/src/app/scene-manager.service';
+import { DirectivesDataService } from 'inlay-runner/src/app/directives-data.service';
 
 @NgModule({
   imports: [
@@ -20,6 +19,6 @@ import { FormsModule } from '@angular/forms';
     SceneManagerService,
     DirectivesDataService
   ],
-  
+
 })
 export class InlayRunTestModule { }

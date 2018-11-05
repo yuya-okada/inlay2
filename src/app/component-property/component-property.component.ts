@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
-import { ProjectManagerService } from '../run/project-manager.service';
-import { InlayComponent } from '../run/inlay-component';
-import { InlayDirective } from '../run/inlay-directive';
+import { Component, OnInit } from '@angular/core';
+import { InlayDirective } from 'inlay-runner';
+import { ProjectManagerService } from 'inlay-runner';
+import { InlayComponent } from 'inlay-runner/src/app/inlay-component';
+
 
 @Component({
   selector: 'component-property',
@@ -11,7 +12,7 @@ import { InlayDirective } from '../run/inlay-directive';
 export class ComponentPropertyComponent implements OnInit {
   /**
    * 現在選択中のコンポーネント
-   * 
+   *
    * @private
    * @type {InlayComponent}
    * @memberof ComponentPropertyComponent
@@ -19,7 +20,7 @@ export class ComponentPropertyComponent implements OnInit {
   private currentComponent: InlayComponent;
   /**
    * 表示されるディレクティブのリスト
-   * 
+   *
    * @type {InlayDirective[]}
    * @memberof ComponentPropertyComponent
    */
@@ -38,7 +39,7 @@ export class ComponentPropertyComponent implements OnInit {
   }
   /**
    * 現在選択されている要素に新しいスクリプト作成してアタッチ
-   * 
+   *
    * @memberof ComponentPropertyComponent
    */
   addNewScript() {

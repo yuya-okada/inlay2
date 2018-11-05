@@ -9,7 +9,6 @@ import { MaterialModule } from '../material/material.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ComponentsDataService } from '../components-data.service';
 import { ComponentsDataResolver } from '../components-data-resolver';
 import { ProjectsResolver } from '../projects-resolver';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,6 +19,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatMenuModule, MatIconModule, MatTabsModule, MatInput, MatInputModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
+import { ComponentsDataService } from 'inlay-runner/src/app/components-data.service';
 @NgModule({
   declarations: [
   ],
@@ -42,8 +42,8 @@ import { HttpModule } from '@angular/http';
     MatMenuModule
   ],
   providers: [
-    ComponentsDataService, 
-    ComponentsDataResolver, 
+    ComponentsDataService,
+    ComponentsDataResolver,
     EditorResolver,
     ProjectsResolver,
     SessionService

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '../../../node_modules/@angular/material';
 import { PromptDialogComponent } from '../prompt-dialog/prompt-dialog.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { API_ROOT } from '../app.module';
 import { SessionService } from '../session.service';
@@ -14,7 +14,7 @@ import { SessionService } from '../session.service';
 export class DashboardComponent implements OnInit {
   projects = []
 
-  constructor(public dialog: MatDialog, public route: ActivatedRoute, public http: HttpClient, private sessionService: SessionService) { }
+  constructor(public dialog: MatDialog, public route: ActivatedRoute, public http: HttpClient, private sessionService: SessionService, private router: Router) { }
 
   ngOnInit() {
     console.log(this.route.snapshot.data.projectsData)
@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
 
     let dialogRef = this.dialog.open(PromptDialogComponent, {
       width: '250px',
-      data: { 
+      data: {
         title: "新しいプロジェクト",
         body: "プロジェクト名を入力",
         value: ""
@@ -44,12 +44,15 @@ export class DashboardComponent implements OnInit {
     console.log(httpParams);
     this.http.post(API_ROOT + "/projects", httpParams, {
       headers: this.sessionService.getAuthenticateHeader()
-    }).subscribe((data)=> {
+    }).subscribe((data) => {
       this.projects.push({
         name: result,
         data: {}
       })
       this.sessionService.setSession(data["headers"])
     })
+  }
+  goToEditor(projectId: number) {
+    this.router.navigate(["editor", projectId, "design"])
   }
 }

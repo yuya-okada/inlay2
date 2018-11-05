@@ -1,7 +1,8 @@
+import { ScriptsManagerService } from 'inlay-runner';
 import { Component, OnInit } from '@angular/core';
 import { InlayDirectivePropertyInput } from '../inlay-directive-property-input';
-import { ProjectManagerService } from '../run/project-manager.service';
-import { InlayScript } from '../run/inlay-script';
+import { InlayScript } from 'inlay-runner';
+
 
 @Component({
   selector: 'app-inlay-directive-property-script',
@@ -9,12 +10,12 @@ import { InlayScript } from '../run/inlay-script';
   styleUrls: ['./inlay-directive-property-script.component.css']
 })
 export class InlayDirectivePropertyScriptComponent extends InlayDirectivePropertyInput implements OnInit {
-  scripts: {key?: InlayScript}  = {}
+  scripts: { key?: InlayScript } = {}
   scriptKeys: string[] = []
 
-  constructor(private projectManagerService: ProjectManagerService) { 
+  constructor(scriptsManagerService: ScriptsManagerService) {
     super();
-    this.scripts = projectManagerService.scripts;
+    this.scripts = scriptsManagerService.scripts;
     this.scriptKeys = Object.keys(this.scripts)
   }
 

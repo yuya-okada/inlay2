@@ -1,3 +1,5 @@
+import { EditorModule } from './editor/editor.module';
+import { InlayRunnerModule } from 'inlay-runner';
 export const API_ROOT = "http://localhost:3000"
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,56 +17,24 @@ import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { EditorComponent } from './editor/editor.component';
-import { ComponentHierarchyComponent } from './component-hierarchy/component-hierarchy.component';
-import { ScreenComponent } from './run/screen/screen.component';
-import { ComponentPropertyComponent } from './component-property/component-property.component';
-import { KeysPipe } from './keys.pipe';
-import { ComponentsDataService } from './components-data.service';
-import { RunModule } from './run/run.module';
-import { ProjectManagerService } from './run/project-manager.service';
-import { InlayDirectiveComponent } from './inlay-directive/inlay-directive.component';
-import { InlayDirectivePropertyComponent } from './inlay-directive-property/inlay-directive-property.component';
-import { InlayDirectivePropertyTextComponent } from './inlay-directive-property-text/inlay-directive-property-text.component';
-import { ModeBarComponent } from './mode-bar/mode-bar.component';
-import { DesignModeComponent } from './design-mode/design-mode.component';
-import { BlockModeComponent } from './block-mode/block-mode.component';
-import { WorkspaceComponent } from './workspace/workspace.component';
-import { ScriptsListComponent } from './scripts-list/scripts-list.component';
-import { PromptDialogComponent } from './prompt-dialog/prompt-dialog.component';
-import { InlayDirectivePropertyScriptComponent } from './inlay-directive-property-script/inlay-directive-property-script.component';
-import { ComponentsDataResolver } from './components-data-resolver';
 import { ProjectsResolver } from './projects-resolver';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorResolver } from './editor-resolver';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SessionService } from './session.service';
+import { CommonModule } from '@angular/common';
 
 const appRoutes: Routes = [
   {
     path: 'editor/:projectId',
-    component: EditorComponent,
-    resolve: {projectData: EditorResolver},
-    canActivate: [SessionService],
-    children: [
-      {
-        path: "design",
-        component: DesignModeComponent,
-        outlet: "editor",
-        resolve: {componentsData: ComponentsDataResolver}
-      },
-      {
-        path: "block",
-        component: BlockModeComponent,
-        outlet: "editor"
-      }
-    ]
+    // canActivate: [SessionService],
+    loadChildren: './editor/editor.module#EditorModule',
   },
   {
     path: "dashboard",
     component: DashboardComponent,
-    resolve: {projectsData: ProjectsResolver},
+    resolve: { projectsData: ProjectsResolver },
     canActivate: [SessionService]
   },
   {
@@ -75,7 +45,8 @@ const appRoutes: Routes = [
     path: "signup",
     component: SignupComponent,
   },
-  { path: '',
+  {
+    path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full'
   }
@@ -87,25 +58,11 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     DashboardComponent,
-    ComponentHierarchyComponent,
-    ScreenComponent,
-    ComponentPropertyComponent,
-    KeysPipe,
-    InlayDirectiveComponent,
-    InlayDirectivePropertyComponent,
-    InlayDirectivePropertyTextComponent,
-    ModeBarComponent,
-    DesignModeComponent,
-    BlockModeComponent,
-    WorkspaceComponent,
-    EditorComponent,
-    ScriptsListComponent,
-    PromptDialogComponent,
-    InlayDirectivePropertyScriptComponent,
     LoginComponent,
     SignupComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -117,14 +74,9 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    // RouterModule.forChild(appRoutes),
     DndModule.forRoot(), // ドラッグアンドドロップ
-    RunModule
   ],
   providers: [
-    ComponentsDataService, 
-    ComponentsDataResolver, 
-    EditorResolver,
     ProjectsResolver,
     SessionService,
     CookieService
@@ -132,14 +84,5 @@ const appRoutes: Routes = [
   bootstrap: [
     AppComponent
   ],
-  entryComponents:[
-    InlayDirectiveComponent,
-    InlayDirectivePropertyTextComponent,
-    InlayDirectivePropertyScriptComponent,
-    PromptDialogComponent
-  ],
-  schemas: [
-    NO_ERRORS_SCHEMA
-  ]
 })
 export class AppModule { }

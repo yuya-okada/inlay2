@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Output } from '@angular/core';
-import { InlayScript } from '../run/inlay-script';
-import { ProjectManagerService } from '../run/project-manager.service';
+import { ProjectManagerService } from 'inlay-runner';
+import { ScriptsManagerService } from 'inlay-runner';
 declare var Blockly: any;
-
+declare const $: any;
 @Component({
   selector: 'inblockly-workspace',
   templateUrl: './workspace.component.html',
@@ -25,21 +25,21 @@ export class WorkspaceComponent implements OnInit {
    * @type {string}
    * @memberof WorkspaceComponent
    */
-  generatedCode:string = "// generated code will appear here";
+  generatedCode: string = "// generated code will appear here";
   /**
    * ワークスペースの内容の情報をXMLとして保持。編集されるたびにリアルタイムに変化する
    *
    * @type {string}
    * @memberof WorkspaceComponent
    */
-  generatedXml:string = ""
+  generatedXml: string = ""
   /**
    * 現在選択されているスクリプトの名前
    *
    * @type {string}
    * @memberof WorkspaceComponent
    */
-  currentScriptName:string = null
+  currentScriptName: string = null
   /**
    * ワークスペースのサイズ更新を担うIntervalのID
    *
@@ -48,11 +48,11 @@ export class WorkspaceComponent implements OnInit {
    */
   private intervalId = null
 
-  constructor(private projectManagerService: ProjectManagerService) { }
+  constructor(private projectManagerService: ProjectManagerService, private scriptsManagerService: ScriptsManagerService) { }
 
   ngOnInit() {
 
-    const toolbox: any = {toolbox: document.getElementById('toolbox')};
+    const toolbox: any = { toolbox: document.getElementById('toolbox') };
     const blocklyDiv = this.blocklyDivRef.element.nativeElement;
     this.workspace = Blockly.inject(blocklyDiv, toolbox);
     this.workspace.addChangeListener(e => this.onWorkspaceChange(e));
@@ -63,7 +63,7 @@ export class WorkspaceComponent implements OnInit {
 
     window.addEventListener('resize', () => this.onResize(), false);
     this.onResize();
-    this.intervalId = setInterval(()=>this.onResize(), 1000)
+    this.intervalId = setInterval(() => this.onResize(), 1000)
     Blockly.svgResize(this.workspace);
   }
 
@@ -81,12 +81,12 @@ export class WorkspaceComponent implements OnInit {
    * @param {*} item
    * @memberof WorkspaceComponent
    */
-  onWorkspaceChange(item) : void {
+  onWorkspaceChange(item): void {
     let code: string = Blockly.JavaScript.workspaceToCode(this.workspace);
     this.generatedCode = code;
-    this.generatedXml =  Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.workspace))
+    this.generatedXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.workspace))
 
-    const script = this.projectManagerService.scripts[this.currentScriptName]
+    const script = this.scriptsManagerService.scripts[this.currentScriptName]
     script.xml = this.generatedXml
     script.code = this.generatedCode
   }
@@ -98,12 +98,12 @@ export class WorkspaceComponent implements OnInit {
    */
   loadScript(name: string) {
     if (this.currentScriptName) {
-      const currentScript = this.projectManagerService.scripts[this.currentScriptName]
+      const currentScript = this.scriptsManagerService.scripts[this.currentScriptName]
       currentScript.xml = this.generatedXml
       currentScript.code = this.generatedCode
     }
 
-    const script = this.projectManagerService.scripts[name]
+    const script = this.scriptsManagerService.scripts[name]
     Blockly.mainWorkspace.clear()
     let xml = Blockly.Xml.textToDom(script.xml);
     Blockly.Xml.domToWorkspace(xml, this.workspace);
@@ -120,7 +120,7 @@ export class WorkspaceComponent implements OnInit {
   onResize() {
     const blocklyArea = this.blocklyAreaRef.element.nativeElement;
     const blocklyDiv = this.blocklyDivRef.element.nativeElement;
- 
+
     const left = $(blocklyArea).offset().left
     const top = $(blocklyArea).offset().top
     // Position blocklyDiv over blocklyArea.
@@ -131,6 +131,6 @@ export class WorkspaceComponent implements OnInit {
     $(blocklyDiv).width($(blocklyArea).width());
     $(blocklyDiv).height($(blocklyArea).height());
     Blockly.svgResize(this.workspace);
-    
+
   }
 }

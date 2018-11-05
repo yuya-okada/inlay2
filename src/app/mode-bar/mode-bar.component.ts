@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 export class ModeBarComponent implements OnInit {
   /**
    * モードのリスト
-   * 
+   *
    * @memberof ModeBarComponent
    */
   modes = [
@@ -24,12 +24,12 @@ export class ModeBarComponent implements OnInit {
   ]
   /**
    * 現在のモード
-   * 
+   *
    * @memberof ModeBarComponent
    */
-  currentSelectedMode:string = "design"
+  currentSelectedMode: string = "design"
 
-  constructor(private router: Router, private route:ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.currentSelectedMode = this.modes[0].path
@@ -41,18 +41,18 @@ export class ModeBarComponent implements OnInit {
         this.currentSelectedMode = data[0].path
       })
     }
-    
+
   }
 
   /**
    * モードを遷移
-   * 
-   * @param {string} path 
+   *
+   * @param {string} path
    * @memberof ModeBarComponent
    */
-  navigate (path:string) {
-    
-    this.router.navigate(["editor", this.route.snapshot.params.projectId ,{outlets: {"editor": [path]}}]);
+  navigate(path: string) {
+
+    this.router.navigate(["editor", this.route.snapshot.params.projectId, path]);
     this.currentSelectedMode = path
   }
 

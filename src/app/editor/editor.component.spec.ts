@@ -14,27 +14,27 @@ describe('EditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditorComponent, ModeBarComponent ],
+      declarations: [EditorComponent, ModeBarComponent],
       imports: [InlayTestModule, InlayRunTestModule, RouterTestingModule, MatIconModule],
-      providers : [
+      providers: [
         {
-           provide: ActivatedRoute,
-           useFactory: () => ({
+          provide: ActivatedRoute,
+          useFactory: () => ({
             snapshot: {
               data: {
-                projectData: { 
+                projectData: {
                   scenes: {
-                      "メインシーン": {}
+                    "メインシーン": {}
                   },
                   defaultSceneName: "メインシーン"
                 }
               }
             }
-           })
+          })
         }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

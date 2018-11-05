@@ -1,9 +1,8 @@
+
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { ComponentsDataService } from './components-data.service';
-import { EditorManagerService } from './editor-manager.service';
 import { ComponentsDataResolver } from './components-data-resolver';
 import { EditorResolver } from './editor-resolver';
 import { ProjectsResolver } from './projects-resolver';
@@ -19,8 +18,10 @@ import {
   RouterTestingModule
 } from '@angular/router/testing';
 import { DndModule } from 'ng2-dnd';
-import { RunModule } from './run/run.module';
-import { DirectivesDataService } from './directives-data.service';
+import { ComponentsDataService } from 'inlay-runner/src/app/components-data.service';
+import { DirectivesDataService } from 'inlay-runner/src/app/directives-data.service';
+import { InlayRunnerModule } from 'inlay-runner';
+
 
 describe('AppComponent', () => {
   beforeEach(() => {
@@ -30,9 +31,8 @@ describe('AppComponent', () => {
       ],
       providers: [
         DirectivesDataService,
-        ComponentsDataService, 
-        EditorManagerService,
-        ComponentsDataResolver, 
+        ComponentsDataService,
+        ComponentsDataResolver,
         EditorResolver,
         ProjectsResolver,
         SessionService
@@ -47,9 +47,9 @@ describe('AppComponent', () => {
         HttpClientModule,
         RouterTestingModule,
         DndModule.forRoot(), // ドラッグアンドドロップ
-        RunModule
+        InlayRunnerModule
       ],
-      
+
     });
     TestBed.compileComponents();
   });

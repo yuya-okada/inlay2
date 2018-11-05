@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { ScreenComponent } from '../run/screen/screen.component';
-import { ProjectManagerService } from '../run/project-manager.service';
-import { SceneManager } from '../run/scene-manager.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { PromptDialogComponent } from '../prompt-dialog/prompt-dialog.component';
 import { ActivatedRoute } from '@angular/router';
+import { ScreenComponent } from 'inlay-runner';
+import { ProjectManagerService } from 'inlay-runner';
+declare const $: any;
 
 @Component({
   selector: 'app-design-mode',
@@ -13,13 +13,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DesignModeComponent implements OnInit {
   @ViewChild(ScreenComponent) screenComponent: ScreenComponent
-  currentSceneName:string = ""
+  currentSceneName: string = ""
   sceneNames: string[] = []
+  projectData: any = []
 
-  constructor(private projectManagerService: ProjectManagerService, public dialog: MatDialog, private snackBar: MatSnackBar, private route: ActivatedRoute) {}
+  constructor(private projectManagerService: ProjectManagerService, public dialog: MatDialog, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit() {
-
+    this.projectData = this.route.snapshot.data.projectData
+    console.log("プロジェクトデータ：", this.projectData)
     $(() => {
       $(window).on("resize", () => {
         this.screenComponent.resize()

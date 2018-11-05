@@ -6,7 +6,6 @@ import { InlayRunTestModule } from '../inlay-run-test/inlay-run-test.module';
 import { MatInput, MatInputModule, MatExpansionModule, MatIconModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { KeysPipe } from '../keys.pipe';
-import { InlayDirectiveProperty } from '../inlay-directive-property';
 import { InlayDirectivePropertyComponent } from '../inlay-directive-property/inlay-directive-property.component';
 
 describe('InlayDirectiveComponent', () => {
@@ -15,17 +14,17 @@ describe('InlayDirectiveComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InlayDirectiveComponent, KeysPipe, InlayDirectivePropertyComponent ],
+      declarations: [InlayDirectiveComponent, KeysPipe, InlayDirectivePropertyComponent],
       imports: [
-        InlayTestModule, 
-        InlayRunTestModule, 
-        FormsModule, 
+        InlayTestModule,
+        InlayRunTestModule,
+        FormsModule,
         MatInputModule,
-        MatIconModule, 
+        MatIconModule,
         MatExpansionModule
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -10,15 +10,15 @@ import { SessionService } from './session.service';
 
 @Injectable()
 export class EditorResolver implements Resolve<Observable<{}>> {
-    constructor(private http: HttpClient, private sessionService: SessionService) {}
-  
+    constructor(private http: HttpClient, private sessionService: SessionService) { }
+
     resolve(route: ActivatedRouteSnapshot) {
-        return this.http.get(API_ROOT + "/projects/" + route.params["projectId"], {
+        return this.http.get(API_ROOT + "/projects/" + route.parent.params.projectId, {
             headers: this.sessionService.getAuthenticateHeader(),
             observe: 'response'
-          }).map((res:any)=>{
+        }).map((res: any) => {
             this.sessionService.setSession(res.headers)
-            let result =  {     // 初期値
+            let result = {     // 初期値
                 scenes: {
                     "メインシーン": {}
                 },
@@ -37,4 +37,4 @@ export class EditorResolver implements Resolve<Observable<{}>> {
 
         })
     }
-  }
+}

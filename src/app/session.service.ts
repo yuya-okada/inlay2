@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { CanActivate, ActivatedRouteSnapshot, Router }    from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Subject } from 'rxjs/Subject';
 import { API_ROOT } from './app.module';
 
 @Injectable()
-export class SessionService implements CanActivate{
+export class SessionService implements CanActivate {
   private accessToken = ""
   private client = ""
   private uid = ""
@@ -25,11 +25,11 @@ export class SessionService implements CanActivate{
    * @returns SubjectM{boolean>}
    * @memberof SessionService
    */
-  canActivate() :Subject<boolean> {
+  canActivate(): Subject<boolean> {
     const promise = new Subject<boolean>()
 
     if (this.accessToken && this.client && this.uid) {
-      
+
       this.http.get(API_ROOT + "/user", {
         headers: this.getAuthenticateHeader(),
         observe: 'response'
@@ -46,7 +46,7 @@ export class SessionService implements CanActivate{
     }
 
     return promise
-    
+
   }
 
   /**
@@ -61,7 +61,7 @@ export class SessionService implements CanActivate{
     console.log("set session", headers.get("uid"));
 
     if (headers && headers.get("access-token")) {
-      
+
       this.accessToken = headers.get("access-token")
       this.client = headers.get("client")
       this.uid = headers.get("uid")
@@ -79,7 +79,7 @@ export class SessionService implements CanActivate{
    * @returns {string}
    * @memberof SessionService
    */
-  getAccessToken():string {
+  getAccessToken(): string {
     return this.accessToken
   }
 
@@ -89,7 +89,7 @@ export class SessionService implements CanActivate{
    * @returns {string}
    * @memberof SessionService
    */
-  getClient():string {
+  getClient(): string {
     return this.client
   }
 
@@ -99,7 +99,7 @@ export class SessionService implements CanActivate{
    * @returns {string}
    * @memberof SessionService
    */
-  getUid():string {
+  getUid(): string {
     return this.uid
   }
 

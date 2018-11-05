@@ -11,10 +11,10 @@ import { SessionService } from '../session.service';
 })
 export class LoginComponent implements OnInit {
 
-  email:string;
-  password:string;
+  email: string;
+  password: string;
 
-  constructor(private http:HttpClient, private router: Router, private sessionService: SessionService) { }
+  constructor(private http: HttpClient, private router: Router, private sessionService: SessionService) { }
 
   ngOnInit() {
   }
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     this.http.post(API_ROOT + "/auth/sign_in", {
       email: this.email,
       password: this.password
-    }, {observe: "response"}).subscribe((res) => {
+    }, { observe: "response" }).subscribe((res) => {
       console.log(res)
       const headers = res["headers"]
       if (headers.get("uid")) {

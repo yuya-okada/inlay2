@@ -5,7 +5,6 @@ import { InlayTestModule } from '../inlay-test/inlay-test.module';
 import { InlayRunTestModule } from '../inlay-run-test/inlay-run-test.module';
 import { MatMenuModule, MatIconModule, MatTab, MatTabsModule } from '@angular/material';
 import { ComponentHierarchyComponent } from '../component-hierarchy/component-hierarchy.component';
-import { ScreenComponent } from '../run/screen/screen.component';
 import { ComponentPropertyComponent } from '../component-property/component-property.component';
 import { KeysPipe } from 'app/keys.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -20,11 +19,11 @@ describe('DesignModeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DesignModeComponent, ComponentHierarchyComponent, ScreenComponent, ComponentPropertyComponent, KeysPipe ],
+      declarations: [DesignModeComponent, ComponentHierarchyComponent, ComponentPropertyComponent, KeysPipe],
       imports: [InlayTestModule, InlayRunTestModule, FormsModule, MaterialModule, MatMenuModule],
       schemas: [NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter } from '@angular/core';
-import { InlayDirective } from '../run/inlay-directive';
-import { DirectivePropertyData } from '../directives-data.service';
-import { InlayDirectiveProperty } from '../inlay-directive-property';
+import { InlayDirective } from 'inlay-runner';
+import { InlayDirectiveProperty } from 'inlay-runner';
 
 @Component({
   selector: 'inlay-directive',
@@ -11,7 +10,7 @@ import { InlayDirectiveProperty } from '../inlay-directive-property';
 export class InlayDirectiveComponent implements OnInit {
   /**
    * 表示するディレクティブ
-   * 
+   *
    * @type {InlayDirective}
    * @memberof InlayDirectiveComponent
    */
@@ -24,17 +23,15 @@ export class InlayDirectiveComponent implements OnInit {
 
   /**
    * プロパティの値が変更された場合
-   * 
+   *
    * @memberof InlayDirectiveComponent
    */
 
-   
-  onPropertyChanged(data: {newVal: any, property: InlayDirectiveProperty, id: string}) {
+
+  onPropertyChanged(data: { newVal: any, property: InlayDirectiveProperty, id: string }) {
     if (this.directive) {
       this.directive.onPropertyChanged(data)
     }
   }
 
 }
-
-
