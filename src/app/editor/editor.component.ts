@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material';
 import { Component, OnInit, ViewChild, ContentChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { API_ROOT } from '../app.module';
@@ -5,6 +6,7 @@ import { SessionService } from '../session.service';
 import { HttpClient } from '@angular/common/http';
 import { ProjectManagerService } from 'inlay-runner';
 import { ScriptsManagerService } from 'inlay-runner';
+import { BuildProgressDialogComponent } from '../build-progress-dialog/build-progress-dialog.component';
 
 
 @Component({
@@ -24,7 +26,7 @@ export class EditorComponent implements OnInit {
 
   projectData: any = {}
 
-  constructor(private projectManagerService: ProjectManagerService, private route: ActivatedRoute, private sessionService: SessionService, private http: HttpClient, private scriptsManagerService: ScriptsManagerService) { }
+  constructor(private projectManagerService: ProjectManagerService, private route: ActivatedRoute, private sessionService: SessionService, private http: HttpClient, private scriptsManagerService: ScriptsManagerService, private dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -59,6 +61,19 @@ export class EditorComponent implements OnInit {
         this.sessionService.setSession(res.headers)
         console.log("done")
       })
+  }
+
+  /**
+   * プロジェクトをダウンロード
+   *
+   * @memberof EditorComponent
+   */
+  download() {
+
+    const dialogRef = this.dialog.open(BuildProgressDialogComponent, {
+      width: '350px',
+      data: this.route.snapshot.params["projectId"]
+    });
   }
 
 }

@@ -1,3 +1,4 @@
+import { BuildProgressDialogComponent } from './../build-progress-dialog/build-progress-dialog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DesignModeComponent } from '../design-mode/design-mode.component';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -72,6 +73,7 @@ const editorRoutes = [
     EditorComponent,
     ScriptsListComponent,
     PromptDialogComponent,
+    BuildProgressDialogComponent
   ],
   providers: [
     ComponentsDataResolver,
@@ -84,7 +86,8 @@ const editorRoutes = [
     InlayDirectiveComponent,
     InlayDirectivePropertyTextComponent,
     InlayDirectivePropertyScriptComponent,
-    PromptDialogComponent
+    PromptDialogComponent,
+    BuildProgressDialogComponent
   ],
   exports: [
     RouterModule

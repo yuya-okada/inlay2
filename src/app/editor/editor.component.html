@@ -2,10 +2,27 @@
     <div id="toolbar" fxLayout fxLayoutAlign="center center">
         <img id="logo" src="assets/imgs/logo.png" />
 
-        <button id="save" color="accent" mat-raised-button (click)="save()">
-            保存
-        </button> </div>
+        <!-- 右寄せで表示 -->
+        <div id="topbar-right">
+            <!-- 保存ボタン -->
+            <button id="save" color="accent" mat-raised-button (click)="save()">
+                保存
+            </button>
 
+            <!-- メニュー -->
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" id="menu">
+                <!-- プロジェクトのダウンロード -->
+                <button mat-menu-item (click)="download()">
+                    <mat-icon>save_alt</mat-icon>
+                    <span>ダウンロード</span>
+                </button>
+            </mat-menu>
+        </div>
+
+    </div>
     <div fxFlex class="editor-content">
         <div class="app-editor" fxLayout>
             <mode-bar></mode-bar>
